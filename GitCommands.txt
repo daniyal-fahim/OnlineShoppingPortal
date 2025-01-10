@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " First commit"
+git commit -m " Creating A Skeleton"
 git status
 git push -u origin main
 

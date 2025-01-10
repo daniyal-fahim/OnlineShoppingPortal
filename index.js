@@ -40,6 +40,12 @@ const products = [
 app.get('/', (req, res) => {
     res.render('index', { products });
 });
+app.get('/login', (req, res) => {
+    res.render('login', { products });
+});
+app.get('/signup', (req, res) => {
+    res.render('signup', { products });
+});
 
 // Start the server
 const PORT = 3000;
