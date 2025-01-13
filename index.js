@@ -1,23 +1,16 @@
- import express from "express";
-// import bodyparser from "body-parser";
-
-
-// const app = express();
-
-
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     res.status(500).send('Something broke!');
-// });
-
-// const port = 5000; 
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-// });
-
-// export default app;
-
+// Import required modules
+import express from "express";
+import bodyParser from "body-parser";
+import { register } from "./Src/Controller/User_Seller/RegisterUser.js";
+import { login } from "./Src/Controller/User_Seller/LoginUser.js";
+import { EmailSender } from "./Src/Controller/OTP/EmailSender.js";
+import { authenticateToken } from "./Src/Controller/User_Seller/AuthenticateUser.js";
 const app = express();
+const PORT = 3000;
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Set EJS as the template engine
 app.set('view engine', 'ejs');
@@ -36,19 +29,39 @@ const products = [
     { imgSrc: "./1fc4eaad-f8ae-42bf-ab14-7b824573c6c4.jpeg", title: "Product 10", price: "$50", action: "Add to Basket" },
 ];
 
-// Define a route to render the EJS template
+// Routes
 app.get('/', (req, res) => {
     res.render('index', { products });
 });
+
 app.get('/login', (req, res) => {
-    res.render('login', { products });
-});
-app.get('/signup', (req, res) => {
-    res.render('signup', { products });
+    res.render('login');
 });
 
+app.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
+app.post('/reg', (req, res) => {
+    console.log(req.body); // Log the request body to check its content
+    register(req, res); // Call the register function
+    
+});
+
+app.post('/log', (req, res) => {
+    console.log(req.body); // Log the request body to check its content
+    login(req, res); // Call the register function
+    
+});
+import { getGId } from "./Src/Controller/User_Seller/getUserId.js";
+app.use(authenticateToken);
+
+app.post('/send', (req, res) => {
+    console.log(getGId());
+    //EmailSender(req, res); // Call the register function
+    
+});
 // Start the server
-const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

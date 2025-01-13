@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Login Signup First Look done"
+git commit -m " Working On Backend Seller View"
 git status
 git push -u origin main
 
@@ -9,3 +9,5 @@ git push -u origin main
 git remote set-url origin 
 
 git pull origin main
+
+

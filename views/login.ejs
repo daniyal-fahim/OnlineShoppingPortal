@@ -124,7 +124,64 @@
         #info {
             text-align: center;
         }
-        
+        /* Responsive Design for Mobile Devices */
+@media screen and (max-width: 768px) {
+    .MainBody {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .input-container {
+        margin: 15px 0;
+    }
+
+    .textbox {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .MainBody {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .textbox {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .OTP {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .OTP h1 {
+        font-size: 16px;
+    }
+
+    .OTP h4 {
+        font-size: 12px;
+    }
+}
     </style>
 
 </head>
@@ -144,7 +201,7 @@
                     oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
                 <label class="label">Password</label>
             </div>
-            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+            <div class="g-recaptcha" data-sitekey="6LfqJLQqAAAAAHiV3snHdkwaj38gnmNAl-pUMNHq"></div>
             <button type="submit">Login</button>
         </form>
 
