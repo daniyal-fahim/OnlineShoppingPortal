@@ -1,7 +1,6 @@
 import { setGId } from "./getUserId.js";
 import { jwt } from "../../Config/JWT_Authentication/JWT_Config.js";
 import { secret } from "../../Config/JWT_Authentication/JWT_Config.js";
-import cookieParser from "cookie-parser"; // Import cookie-parser
 
 // Use cookie-parser
 export const authenticateToken = (req, res, next) => {

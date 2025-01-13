@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Working On Backend Seller View"
+git commit -m " JWT IMPLEMENTED AND WORKING WELL"
 git status
 git push -u origin main
 

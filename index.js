@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import { register } from "./Src/Controller/User_Seller/RegisterUser.js";
 import { login } from "./Src/Controller/User_Seller/LoginUser.js";
 import { EmailSender } from "./Src/Controller/OTP/EmailSender.js";
+import cookieParser from "cookie-parser";
 import { authenticateToken } from "./Src/Controller/User_Seller/AuthenticateUser.js";
 const app = express();
 const PORT = 3000;
@@ -11,7 +12,7 @@ const PORT = 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 // Set EJS as the template engine
 app.set('view engine', 'ejs');
 
@@ -57,7 +58,9 @@ import { getGId } from "./Src/Controller/User_Seller/getUserId.js";
 app.use(authenticateToken);
 
 app.post('/send', (req, res) => {
-    console.log(getGId());
+    console.log("SUCCESSFULLY LANDED HERE "+getGId());
+    res.status(200).json({ message: "User registered successfully" });
+
     //EmailSender(req, res); // Call the register function
     
 });
