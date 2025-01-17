@@ -66,8 +66,6 @@ The D Pay Security Team
     const receivers = [
       email,
       "daniyal236fahim@gmail.com",
-      "k224167@nu.edu.pk",
-      "k224663@nu.edu.pk",
     ];
 
     const info = await transporter.sendMail({

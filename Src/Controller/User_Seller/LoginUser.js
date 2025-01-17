@@ -16,15 +16,18 @@ export const login = async (req, res) => {
     if (result.rows.length > 0) {
       const user = result.rows[0];
       const match = await bcrypt.compare(password, user.password);
-      const user_id=user.user_id;
-      if (match ) {
+      const user_id = user.user_id;
+      
+      if (match) {
+        // Set the user ID globally if needed
         setGId(user_id);
 
-        var data = {
+        // Create a JWT token
+        const data = {
           user_id,
         };
 
-        var token = jwt.sign(
+        const token = jwt.sign(
           {
             data,
           },
@@ -32,34 +35,38 @@ export const login = async (req, res) => {
           { expiresIn: "1h" }
         );
 
+        // Set the cookie and send response only once
         res.cookie("token", token, {
           httpOnly: true,
-          secure: true,
+          secure: true,  // Ensure this is set to true only in production (for HTTPS)
           sameSite: 'None',
-          maxAge: 3600000,
+          maxAge: 3600000, // 1 hour expiration
           path: "/",
         });
-       
+
         console.log("Authentication successful");
         console.log(token);
-        res.status(200).json({
+
+        return res.status(200).json({
           ok: true,
           message: "Login successful!",
           authtoken: token,
         });
       } else {
-      
+        // Incorrect password
         console.log("Authentication failed: Incorrect password");
-         res.status(500).json({ message: "Authentication failed: Incorrect password" });
-
+        return res.status(401).json({ message: "Authentication failed: Incorrect password" });
       }
     } else {
       // No user found with the given email
-    res.status(500).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     console.error(err.message);
-    let msg="Server error "+err.message ;
-    res.status(500).json({ message: msg  });
+    let msg = "Server error: " + err.message;
+    // Ensure we send only one response in case of an error
+    if (!res.headersSent) {
+      return res.status(500).json({ message: msg });
+    }
   }
 };

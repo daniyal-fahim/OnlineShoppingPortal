@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Registration Page</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
+        /* Your existing CSS */
         body {
             display: flex;
             justify-content: center;
@@ -66,7 +67,7 @@
         }
 
         .textbox:focus+.label,
-        .label.active {
+        .textbox:not(:placeholder-shown)+.label {
             top: -10px;
             font-size: 12px;
             color: #007bff;
@@ -124,177 +125,164 @@
         #info {
             text-align: center;
         }
-        /* Responsive Design for Mobile Devices */
-@media screen and (max-width: 768px) {
-    .MainBody {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .input-container {
-        margin: 15px 0;
-    }
-
-    .textbox {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .MainBody {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .textbox {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    button {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .OTP {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .OTP h1 {
-        font-size: 16px;
-    }
-
-    .OTP h4 {
-        font-size: 12px;
-    }
-}
     </style>
-
 </head>
 
 <body>
-
     <div class="MainBody">
-        <h1>Signup Page</h1>
-        <form action="/signup" method="POST">
+        <h1>Registration Page</h1>
+        <form id="register-form">
             <div class="input-container">
-                <input type="text" name="fname" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="text" name="fname" class="textbox" placeholder=" " required />
                 <label class="label">First Name</label>
             </div>
             <div class="input-container">
-                <input type="text" name="lname" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="text" name="lname" class="textbox" placeholder=" " required />
                 <label class="label">Last Name</label>
             </div>
             <div class="input-container">
-                <input type="date" name="dob" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
-                <label class="label">Date OF Birth</label>
+                <input type="date" name="dob" class="textbox" placeholder=" " required />
+                <label class="label">Date of Birth</label>
             </div>
             <div class="input-container">
-                <input type="text" name="email" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="text" name="cnic" class="textbox" placeholder=" " required />
+                <label class="label">CNIC</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="nationality" class="textbox" placeholder=" " required />
+                <label class="label">Nationality</label>
+            </div>
+            <div class="input-container">
+                <select name="gender" class="textbox" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label class="label">Gender</label>
+            </div>
+            <div class="input-container">
+                <input type="email" name="email" class="textbox" placeholder=" " required />
                 <label class="label">Email</label>
             </div>
             <div class="input-container">
-                <input type="password" name="password" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="password" name="password" class="textbox" placeholder=" " required />
                 <label class="label">Password</label>
             </div>
-            <div class="input-container">
-                <input type="password" name="Confrim_password" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
-                <label class="label">Confirm Password</label>
-            </div>
-            <div class="g-recaptcha" data-sitekey="6LfqJLQqAAAAAHiV3snHdkwaj38gnmNAl-pUMNHq"></div>
-            <button type="submit">Login</button>
+            <div class="g-recaptcha" data-sitekey="your-recaptcha-site-key"></div>
+            <button type="submit">Register</button>
         </form>
 
         <div class="OTP" id="otpver">
             <h1>OTP Verification</h1>
             <h4 id="info">Please Enter The OTP Sent To Your Registered Email</h4>
             <div class="input-container">
-                <input type="text" name="otp" class="textbox" id="otpcode"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="text" name="otp" class="textbox" id="otpcode" placeholder=" " required />
                 <label class="label">OTP Code</label>
             </div>
             <div id="otpbutt">
-            <button id="closeOtp">close</button>
-            <button id="verifyOtp">Verify</button>
-        </div>
+                <button id="closeOtp">Close</button>
+                <button id="verifyOtp">Verify</button>
+            </div>
         </div>
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const response = await fetch('/login', {
-                method: 'POST',
-                body: formData,
+        document.getElementById("register-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const payload = {
+        fname: formData.get("fname"),
+        lname: formData.get("lname"),
+        dob: formData.get("dob"),
+        cnic: formData.get("cnic"),
+        nationality: formData.get("nationality"),
+        gender: formData.get("gender"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+    };
+
+    try {
+        document.getElementById("otpver").style.display = "flex";
+        const emailResponse = await fetch("http://localhost:3000/send-email", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email1: formData.get("email"), fname: formData.get("fname"), lname: formData.get("lname") }),
+        });
+
+        if (emailResponse.ok) {
+            console.log("Email sent successfully!");
+        } else {
+            console.error("Error sending email. Please enter a valid email.");
+            return;
+        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        alert("An error occurred. Please try again.");
+        return;
+    }
+
+    // Now handle OTP verification only after sending the email
+    document.getElementById("verifyOtp").addEventListener("click", async () => {
+        const otp = document.getElementById("otpcode").value;
+
+        if (!otp) {
+            alert("Please enter the OTP.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:3000/verify-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ otp }),
             });
-            const modal = document.getElementById("otpver");
-            modal.style.display = "flex";
+
+            const result = await response.json();
 
             if (response.ok) {
-                alert('Login successful!');
-            } else {
-                alert('Login failed.');
-            }
-        });
-        document.getElementById('closeOtp').addEventListener('click', async () => {
-            const modal = document.getElementById("otpver");
-            modal.style.display = "none";
-        });
+                alert("OTP verified successfully! Proceeding with registration.");
 
-
-        document.getElementById('verifyOtp').addEventListener('click', async () => {
-            const otp = document.getElementById('otpcode').value;
-
-            if (!otp) {
-                alert('Please enter the OTP.');
-                return;
-            }
-
-            try {
-                const response = await fetch('/verify-otp', {
-                    method: 'POST',
+                // Only now make the registration API call
+                const registrationResponse = await fetch("http://localhost:3000/register", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ otp }),
+                    body: JSON.stringify(payload),
                 });
 
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert('OTP verified successfully!');
+                if (registrationResponse.ok) {
+                    const data = await registrationResponse.json();
+                    console.log(data); // You can log the response for debugging
+                    localStorage.setItem('authToken', data.token); // Assuming token is returned
+                    window.location.replace("http://127.0.0.1:3000/views/index.ejs");
                 } else {
-                    alert(result.message || 'Failed to verify OTP. Please try again.');
+                    const result = await registrationResponse.json();
+                    alert(result.message || "Registration failed. Please try again.");
                 }
-            } catch (error) {
-                console.error('Error verifying OTP:', error);
-                alert('An error occurred. Please try again.');
+            } else {
+                alert(result.message || "Failed to verify OTP. Please try again.");
             }
-        });
-        
-    </script>
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+            alert("An error occurred. Please try again.");
+        }
+    });
+});
 
+// Close OTP popup
+document.getElementById("closeOtp").addEventListener("click", () => {
+    document.getElementById("otpver").style.display = "none";
+});
+
+    </script>
 </body>
 
 </html>

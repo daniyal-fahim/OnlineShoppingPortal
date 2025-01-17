@@ -61,7 +61,7 @@ app.get("/signup", (req, res) => {
 });
 
 // User registration route
-app.post("/reg", (req, res) => {
+app.post("/register", (req, res) => {
     console.log(req.body); // Debug log
     register(req, res);
 });
@@ -73,7 +73,7 @@ app.post("/log", (req, res) => {
 });
 
 // Middleware to authenticate requests
-app.use(authenticateToken);
+//app.use(authenticateToken);
 
 // Email sending route
 app.post("/send-email", (req, res) => {
