@@ -38,15 +38,14 @@ export const login = async (req, res) => {
           sameSite: 'None',
           maxAge: 3600000,
           path: "/",
-          domain: "localhost",
         });
-
+       
         console.log("Authentication successful");
         console.log(token);
         res.status(200).json({
           ok: true,
           message: "Login successful!",
-          token:token
+          authtoken: token,
         });
       } else {
       

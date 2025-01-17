@@ -1,20 +1,35 @@
 // Import required modules
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import { register } from "./Src/Controller/User_Seller/RegisterUser.js";
 import { login } from "./Src/Controller/User_Seller/LoginUser.js";
 import { EmailSender } from "./Src/Controller/OTP/EmailSender.js";
-import cookieParser from "cookie-parser";
 import { authenticateToken } from "./Src/Controller/User_Seller/AuthenticateUser.js";
+import { CheckOTP } from "./Src/Controller/OTP/CheckOTP.js";
+import { getGId } from "./Src/Controller/User_Seller/getUserId.js";
+
 const app = express();
 const PORT = 3000;
 
 // Middleware
+// Enable CORS for cross-origin requests
+app.use(cors({
+    origin: "http://127.0.0.1:3000", // Use your backend URL as the origin
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Allow cookies to be sent with requests
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+
+// Parse incoming requests with JSON and URL-encoded payloads
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 // Set EJS as the template engine
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 // Sample product data
 const products = [
@@ -31,39 +46,47 @@ const products = [
 ];
 
 // Routes
-app.get('/', (req, res) => {
-    res.render('index', { products });
+// Home route to render the products page
+app.get("/", (req, res) => {
+    res.render("index", { products });
 });
 
-app.get('/login', (req, res) => {
-    res.render('login');
+// Render login and signup pages
+app.get("/login", (req, res) => {
+    res.render("login");
 });
 
-app.get('/signup', (req, res) => {
-    res.render('signup');
+app.get("/signup", (req, res) => {
+    res.render("signup");
 });
 
-app.post('/reg', (req, res) => {
-    console.log(req.body); // Log the request body to check its content
-    register(req, res); // Call the register function
-    
+// User registration route
+app.post("/reg", (req, res) => {
+    console.log(req.body); // Debug log
+    register(req, res);
 });
 
-app.post('/log', (req, res) => {
-    console.log(req.body); // Log the request body to check its content
-    login(req, res); // Call the register function
-    
+// User login route
+app.post("/log", (req, res) => {
+    console.log(req.body); // Debug log
+    login(req, res);
 });
-import { getGId } from "./Src/Controller/User_Seller/getUserId.js";
+
+// Middleware to authenticate requests
 app.use(authenticateToken);
 
-app.post('/send', (req, res) => {
-    console.log("SUCCESSFULLY LANDED HERE "+getGId());
-    res.status(200).json({ message: "User registered successfully" });
+// Email sending route
+app.post("/send-email", (req, res) => {
+    console.log("Cookies received:", req.cookies);
 
-    //EmailSender(req, res); // Call the register function
-    
+    EmailSender(req, res);
 });
+
+// OTP verification route
+app.post("/verify-otp", (req, res) => {
+    CheckOTP(req, res);
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

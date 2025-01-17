@@ -7,6 +7,7 @@
     <title>Login Page</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
+        /* Your existing CSS */
         body {
             display: flex;
             justify-content: center;
@@ -66,7 +67,7 @@
         }
 
         .textbox:focus+.label,
-        .label.active {
+        .textbox:not(:placeholder-shown)+.label {
             top: -10px;
             font-size: 12px;
             color: #007bff;
@@ -124,84 +125,22 @@
         #info {
             text-align: center;
         }
-        /* Responsive Design for Mobile Devices */
-@media screen and (max-width: 768px) {
-    .MainBody {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .input-container {
-        margin: 15px 0;
-    }
-
-    .textbox {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .MainBody {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .textbox {
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    button {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .OTP {
-        width: 95%;
-        padding: 10px;
-    }
-
-    .OTP h1 {
-        font-size: 16px;
-    }
-
-    .OTP h4 {
-        font-size: 12px;
-    }
-}
     </style>
-
 </head>
 
 <body>
-
     <div class="MainBody">
         <h1>Login Page</h1>
-        <form action="/login" method="POST">
+        <form id="login-form">
             <div class="input-container">
-                <input type="text" name="username" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
-                <label class="label">Username</label>
+                <input type="text" name="username" class="textbox" placeholder=" " required />
+                <label class="label">Email</label>
             </div>
             <div class="input-container">
-                <input type="password" name="password" class="textbox"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="password" name="password" class="textbox" placeholder=" " required />
                 <label class="label">Password</label>
             </div>
-            <div class="g-recaptcha" data-sitekey="6LfqJLQqAAAAAHiV3snHdkwaj38gnmNAl-pUMNHq"></div>
+            <div class="g-recaptcha" data-sitekey="your-recaptcha-site-key"></div>
             <button type="submit">Login</button>
         </form>
 
@@ -209,53 +148,76 @@
             <h1>OTP Verification</h1>
             <h4 id="info">Please Enter The OTP Sent To Your Registered Email</h4>
             <div class="input-container">
-                <input type="text" name="otp" class="textbox" id="otpcode"
-                    oninput="this.className = (this.value.length > 0) ? 'textbox active' : 'textbox';" required />
+                <input type="text" name="otp" class="textbox" id="otpcode" placeholder=" " required />
                 <label class="label">OTP Code</label>
             </div>
             <div id="otpbutt">
-            <button id="closeOtp">close</button>
-            <button id="verifyOtp">Verify</button>
-        </div>
+                <button id="closeOtp">Close</button>
+                <button id="verifyOtp">Verify</button>
+            </div>
         </div>
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const response = await fetch('/login', {
-                method: 'POST',
-                body: formData,
-            });
-            const modal = document.getElementById("otpver");
-            modal.style.display = "flex";
+        // Helper function to get a cookie by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
 
-            if (response.ok) {
-                alert('Login successful!');
-            } else {
-                alert('Login failed.');
+        // Handle login
+        document.getElementById("login-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const payload = {
+                email: formData.get("username"),
+                password: formData.get("password"),
+            };
+
+            try {
+                const response = await fetch("http://localhost:3000/log", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.authtoken);
+                    localStorage.setItem('authToken', data.authtoken);
+                    document.getElementById("otpver").style.display = "flex";
+                } else {
+                    const result = await response.json();
+                    alert(result.message || "Login failed. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error during login:", error);
+                alert("An error occurred. Please try again.");
             }
         });
-        document.getElementById('closeOtp').addEventListener('click', async () => {
-            const modal = document.getElementById("otpver");
-            modal.style.display = "none";
-        });
 
-
-        document.getElementById('verifyOtp').addEventListener('click', async () => {
-            const otp = document.getElementById('otpcode').value;
+        // Handle OTP verification
+        document.getElementById("verifyOtp").addEventListener("click", async () => {
+            const otp = document.getElementById("otpcode").value;
 
             if (!otp) {
-                alert('Please enter the OTP.');
+                alert("Please enter the OTP.");
                 return;
             }
 
+            const token = localStorage.getItem('authToken');// Assuming your token cookie is named 'authToken'
+              console.log(token);
             try {
-                const response = await fetch('/verify-otp', {
-                    method: 'POST',
+                const response = await fetch("http://localhost:3000/verify-otp", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
                     },
                     body: JSON.stringify({ otp }),
                 });
@@ -263,17 +225,22 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert('OTP verified successfully!');
+                    alert("OTP verified successfully! Redirecting to dashboard.");
+                    window.location.href = "/dashboard";
                 } else {
-                    alert(result.message || 'Failed to verify OTP. Please try again.');
+                    alert(result.message || "Failed to verify OTP. Please try again.");
                 }
             } catch (error) {
-                console.error('Error verifying OTP:', error);
-                alert('An error occurred. Please try again.');
+                console.error("Error verifying OTP:", error);
+                alert("An error occurred. Please try again.");
             }
         });
-    </script>
 
+        // Close OTP popup
+        document.getElementById("closeOtp").addEventListener("click", () => {
+            document.getElementById("otpver").style.display = "none";
+        });
+    </script>
 </body>
 
 </html>
