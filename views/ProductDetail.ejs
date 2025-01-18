@@ -5,95 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= product.title %> Details</title>
     <style>
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
             margin: 0;
             padding: 0;
         }
-        header, footer {
+
+        /* Page Container (To Scope Styles) */
+        .page-container {
+            background-color: #f9f9f9;
+        }
+
+        /* Header Styles - Ensure it remains unchanged */
+        .page-container header {
             background-color: #007BFF;
             color: white;
             text-align: center;
-            padding: 15px 0;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .container {
+
+        .page-container header nav .nav-links, .page-container footer nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .page-container header nav .nav-links li, .page-container footer nav li {
+            display: inline;
+        }
+
+        .page-container header nav .nav-links li a, .page-container footer nav li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .page-container header nav .nav-links li a:hover, .page-container footer nav li a:hover {
+            color: #ffd700;
+        }
+
+        .page-container footer p {
+            font-size: 0.9em;
+        }
+
+        /* Product Details Section Styles */
+        .container {
             max-width: 800px;
             margin: 20px auto;
-        }
-        .product {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .product img {
             width: 100%;
             max-width: 400px;
             border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .product h1 {
-            margin-top: 20px;
+            font-size: 2em;
+            margin: 20px 0 10px;
         }
-        .product p {
-            margin: 10px 0;
-        }
+
         .product .price {
             font-size: 1.5em;
             color: #007BFF;
-            margin: 15px 0;
+            margin: 10px 0;
         }
+
         .product .rating {
             color: #FFD700;
             font-size: 1.2em;
+            margin: 10px 0;
         }
-        .product .category {
-            font-weight: bold;
+
+        .product .category, .product .stock {
+            margin: 10px 0;
+            font-size: 1.1em;
             color: #555;
-            margin: 10px 0;
         }
-        .product .stock {
-            font-size: 1em;
+
+        .product p {
+            line-height: 1.6;
             margin: 10px 0;
+            color: #666;
         }
+
         .product .action {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #007BFF;
+            background: #007BFF;
             color: white;
             text-decoration: none;
+            font-weight: bold;
             border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
             margin-top: 15px;
         }
-        footer {
-            margin-top: 30px;
-            font-size: 0.9em;
+
+        .product .action:hover {
+            background: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        .out-of-stock {
+            color: red;
+            font-weight: bold;
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Product Details</h1>
-    </header>
-    <div class="container">
-        <div class="product">
-            <img src="<%= product.imgSrc %>" alt="<%= product.title %>">
-            <h1><%= product.title %></h1>
-            <div class="price"><%= product.price %></div>
-            <div class="rating">Rating: <%= product.rating %> ⭐</div>
-            <div class="category">Category: <%= product.category %></div>
-            <p><%= product.description %></p>
-            <div class="stock">
-                <% if (product.stock > 0) { %>
-                    In Stock: <%= product.stock %>
-                <% } else { %>
-                    <span style="color: red;">Out of Stock</span>
-                <% } %>
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Include Header -->
+        <%- include('Header') %>
+
+        <!-- Product Details Section -->
+        <div class="container">
+            <div class="product">
+                <img src="<%= product.imgSrc %>" alt="<%= product.title %>">
+                <h1><%= product.title %></h1>
+                <div class="price">$<%= product.price %></div>
+                <div class="rating">Rating: <%= product.rating %> ⭐</div>
+                <div class="category">Category: <%= product.category %></div>
+                <p><%= product.description %></p>
+                <div class="stock">
+                    <% if (product.stock > 0) { %>
+                        In Stock: <%= product.stock %>
+                    <% } else { %>
+                        <span class="out-of-stock">Out of Stock</span>
+                    <% } %>
+                </div>
+                <a href="#" class="action">Add to Basket</a>
             </div>
-            <a href="#" class="action">Add to Basket</a>
         </div>
+
+        <!-- Include Footer -->
+        <%- include('Footer') %>
     </div>
-    <footer>
-        <p>&copy; 2025 MyShop. All rights reserved.</p>
-    </footer>
 </body>
 </html>

@@ -120,7 +120,9 @@ const products = [
 app.get("/", (req, res) => {
     res.render("index", { products });
 });
-
+app.get("/detail", (req, res) => {
+    res.render("ProductDetail", { products });
+});
 // Render login and signup pages
 app.get("/login", (req, res) => {
     res.render("login");
@@ -129,7 +131,9 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
     res.render("signup");
 });
-
+app.get("/Head", (req, res) => {
+    res.render("Header1");
+});
 // User registration route
 app.post("/register", (req, res) => {
     console.log(req.body); // Debug log
@@ -168,7 +172,11 @@ app.get("/product/:title", (req, res) => {
     }
     res.render("ProductDetail", { product, products });
 });
-
+import { Logout } from "./Src/Controller/User_Seller/Logout.js";
+app.post("/logout", (req, res) => {
+    Logout(req, res);
+    res.render("index");
+});
 // OTP verification route
 app.post("/verify-otp", (req, res) => {
     CheckOTP(req, res);
