@@ -45,27 +45,30 @@ export const EmailSender = async (req, res) => {
     }
 
     const msg = `
-Dear ${username},
+**Subject:** Verify Your Email for Secure Access to Your D_Virtual_Shopping Account  
 
-For enhanced security of your [Banking App Name] account, we have implemented a Two-Factor Authentication (2FA) process to ensure only you can access your account. This additional layer of security protects your personal information from unauthorized access.
+**Dear ${username},**  
 
-Your One-Time Verification Code
-Your secure access code is: ${otp}
+To ensure the security of your D_Shopping account, we’ve implemented an email verification process. This step ensures only authorized access and helps protect your personal information.  
 
-Please enter this code on the authentication page within the next 10 minutes to complete your login. For security reasons, this code will expire after 10 minutes, and a new one will be required if this time lapses.
+### **Your Email Verification Code**  
+Your secure verification code is: **${otp}**  
 
-What to Do if You Did Not Request This Code
-If you did not initiate this login attempt, please disregard this email and notify us immediately by contacting our customer support team at [support email] or [support phone number].
+Please enter this code on the verification page within the next 10 minutes to complete your account setup or login. For your safety, this code will expire after 10 minutes. If the time lapses, you can request a new code.  
 
-At D PAY, we are committed to keeping your personal information safe and secure. Thank you for choosing us as your trusted banking partner.
+### **What to Do if You Did Not Request This Code**  
+If you did not initiate this request, please disregard this email. If you suspect any unauthorized activity, contact our customer support team immediately at [support email] or [support phone number].  
 
-Best regards,
-The D Pay Security Team
+At **D_Virtual_Shopping**, your trust is our top priority, and we are committed to safeguarding your account and personal information.  
+
+Thank you for choosing **D_Virtual_Shopping** for your online shopping needs.  
+
+**Best regards,**  
+The D_Virtual_Shopping Security Team
     `;
 
     const receivers = [
       email,
-      "daniyal236fahim@gmail.com",
     ];
 
     const info = await transporter.sendMail({
