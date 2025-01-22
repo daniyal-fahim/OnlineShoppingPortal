@@ -3,7 +3,7 @@ import { getGId } from "./getUserId.js";
 
 export const Islogin = async (req, res) => {
     const user_id = getGId();
-    if (!user_id) {
+    if (!user_id||user_id == 'UserLogout') {
         return res.status(400).json({ login: false, message: "Invalid user ID" });
     }
       
