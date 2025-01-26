@@ -32,7 +32,7 @@ app.use(express.static(path.join(process.cwd(), "public")));
 const allowedOrigins = [
   "http://127.0.0.1:3000", // Localhost
   "http://localhost:3000", // Localhost
-  "https://online-shopping-portal-kdx66wx0p-daniyal-fahims-projects.vercel.app", // Vercel production
+  "https://online-shopping-portal-kdx66wx0p-daniyal-fahims-projects.vercel.app","https://d-shopping.vercel.app/" // Vercel production
 ];
 
 // CORS configuration

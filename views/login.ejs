@@ -177,7 +177,7 @@
             };
 
             try {
-                const response = await fetch("http://localhost:3000/log", {
+                const response = await fetch("https://d-shopping.vercel.app/log", {
                     method: "POST",
                     credentials: "include",
                     headers: {
@@ -193,7 +193,7 @@
                     document.getElementById("otpver").style.display = "flex";
 
                     // Send email after successful login and OTP popup
-                    const emailResponse = await fetch("http://localhost:3000/send-email", {
+                    const emailResponse = await fetch("https://d-shopping.vercel.app/send-email", {
                         method: "POST",
                         credentials: "include",
                         headers: {
@@ -230,7 +230,7 @@
             const token = localStorage.getItem('authToken'); // Assuming your token cookie is named 'authToken'
 
             try {
-                const response = await fetch("http://localhost:3000/verify-otp", {
+                const response = await fetch("https://d-shopping.vercel.app/verify-otp", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -243,7 +243,7 @@
 
                 if (response.ok) {
                     alert("OTP verified successfully! Redirecting to dashboard.");
-                    window.location.href = "http://localhost:3000/";
+                    window.location.href = "https://d-shopping.vercel.app/";
 
                 } else {
                     alert(result.message || "Failed to verify OTP. Please try again.");

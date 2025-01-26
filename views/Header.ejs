@@ -53,8 +53,8 @@
 
         <!-- Login/Signup or Logout Buttons -->
         <div class="text-end" id="auth-buttons">
-          <button type="button" onclick="window.location.href='http://localhost:3000/login'" class="btn btn-light text-dark me-2">Login</button>
-          <button type="button" onclick="window.location.href='http://localhost:3000/signup'" class="btn btn-primary">Sign-up</button>
+          <button type="button" onclick="window.location.href='https://d-shopping.vercel.app/login'" class="btn btn-light text-dark me-2">Login</button>
+          <button type="button" onclick="window.location.href='https://d-shopping.vercel.app/signup'" class="btn btn-primary">Sign-up</button>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@
 
       try {
         const token = localStorage.getItem('authToken');
-        const response = await fetch("http://localhost:3000/islogin", {
+        const response = await fetch("https://d-shopping.vercel.app/islogin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@
             <span class="text-dark font-weight-bold" style="font-size: 18px;padding:2px">Cart      </span>
         </a>
         <span class="me-3 text-dark">Welcome, ${data.fullname}</span>
-        <button type="button" onclick="window.location.href='http://localhost:3000/addproduct'" class="btn btn-light text-dark me-2">AddProduct</button>
+        <button type="button" onclick="window.location.href='https://d-shopping.vercel.app/addproduct'" class="btn btn-light text-dark me-2">AddProduct</button>
         <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>
         
     </div>`;
@@ -106,7 +106,7 @@
     async function logout() {
       console.log('Logout clicked');
       const token = localStorage.getItem('authToken');
-      await fetch("http://localhost:3000/logout", {
+      await fetch("https://d-shopping.vercel.app/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@
         }
       });
       localStorage.clear();
-      window.location.href = "http://localhost:3000/";
+      window.location.href = "https://d-shopping.vercel.app/";
     }
       
     // Check login status on page load
