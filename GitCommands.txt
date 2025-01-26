@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Deployment In Progress part 2 (ADDING LINK TO VIEW)"
+git commit -m " Deployment In Progress part 3 (Correction in VIEW navigation)"
 git status
 git push -u origin main
 

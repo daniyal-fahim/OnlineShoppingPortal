@@ -58,7 +58,8 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 
 // Set the directory for views
-app.set("views", path.join(process.cwd(), "Src", "views"));
+// Set the directory for views
+app.set("views", path.join(process.cwd(), "views"));
 
 app.use(mysetter);
 
