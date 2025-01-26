@@ -29,12 +29,27 @@ const PORT = 3000;
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // Middleware setup
-app.use(cors({
-    origin: "http://127.0.0.1:3000" || "http://localhost:3000",  // Allow your frontend to make requests
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,  // Allow cookies to be sent with requests
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+const allowedOrigins = [
+  "http://127.0.0.1:3000", // Localhost
+  "http://localhost:3000",  // Localhost
+  "https://d-shopping-ft7qfz23h-daniyal-fahims-projects.vercel.app" // Vercel production
+];
+
+// CORS configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true); // Allow the origin
+      } else {
+          callback(new Error('Not allowed by CORS')); // Reject the origin
+      }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  credentials: true, // Enable credentials (cookies, headers, etc.)
+};
+
+app.use(cors(corsOptions)); // Apply CORS
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());

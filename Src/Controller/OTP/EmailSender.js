@@ -45,8 +45,6 @@ export const EmailSender = async (req, res) => {
     }
 
     const msg = `
-**Subject:** Verify Your Email for Secure Access to Your D_Virtual_Shopping Account  
-
 **Dear ${username},**  
 
 To ensure the security of your D_Shopping account, we’ve implemented an email verification process. This step ensures only authorized access and helps protect your personal information.  
@@ -74,7 +72,7 @@ The D_Virtual_Shopping Security Team
     const info = await transporter.sendMail({
       from: '"D pay" <daniyal237fahim@gmail.com>',
       to: receivers,
-      subject: "DPAY TWO FACTOR AUTHENTICATION",
+      subject: "Verify Your Email for Secure Access to Your D_Virtual_Shopping Account  ",
       text: msg,
     });
 
