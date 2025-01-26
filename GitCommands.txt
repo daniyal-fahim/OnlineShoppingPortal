@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Deployment Changes index corrype"
+git commit -m " Deployment Changes index "
 git status
 git push -u origin main
 
