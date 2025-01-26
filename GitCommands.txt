@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Cart Functionalities done only checkout remaining"
+git commit -m " Deployment Changes"
 git status
 git push -u origin main
 
