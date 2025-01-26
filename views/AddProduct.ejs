@@ -16,7 +16,8 @@
 
         /* Page Container (To Scope Styles) */
         .page-container {
-            background-color: #f9f9f9;
+            background-color: #007BFF;
+            padding: 2px;
         }
 
         /* Header Styles */
@@ -107,18 +108,15 @@
 </head>
 <body>
     <!-- Page Container -->
+      <!-- Include Header -->
+      <%- include('Header') %>
     <div class="page-container">
-        <!-- Include Header -->
-        <%- include('Header') %>
+       
 
         <!-- Add Product Form Section -->
         <div class="container">
             <h1>Add a New Product</h1>
             <form action="/addproduct" method="POST">
-                <div>
-                    <label for="id">Product ID</label>
-                    <input type="text" id="id" name="id" required>
-                </div>
                 <div>
                     <label for="name">Product Name</label>
                     <input type="text" id="name" name="name" required>
@@ -165,9 +163,9 @@
             </form>
         </div>
 
-        <!-- Include Footer -->
-        <%- include('Footer') %>
+        
     </div>
-
+<!-- Include Footer -->
+<%- include('Footer') %>
 </body>
 </html>

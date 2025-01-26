@@ -24,12 +24,16 @@ router.get("/signup", (req, res) => {
 
 // Render header page (if you have a separate header)
 router.get("/head", (req, res) => {
-    res.render("Header1");
+    const sortBy = req.query.sortBy || "title"; // Default sorting by name
+        const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // Default sorting o
+    res.render("Header",{ sortBy,sortOrder });
 });
 
 // Render add product page
 router.get("/addproduct", (req, res) => {
-    res.render("AddProduct");
+    const sortBy = req.query.sortBy || "title"; // Default sorting by name
+        const sortOrder = req.query.sortOrder === "desc" ? -1 : 1; // Default sorting order is ascending
+    res.render("AddProduct" ,{ sortBy,sortOrder });
 });
 
 // Render product detail for a specific product based on title
