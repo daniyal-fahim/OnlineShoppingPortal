@@ -9,6 +9,7 @@ import productRoutes from "./Src/Routes/ProductRoute.js";  // Import product-rel
 import mongoose from "mongoose";
 
 import dotenv from 'dotenv';
+import { mysetter } from "./Src/Controller/User_Seller/mysetter.js";
 
 dotenv.config();
 
@@ -40,7 +41,7 @@ app.use(cookieParser());
 
 // Set EJS as the template engine
 app.set("view engine", "ejs");
-
+app.use(mysetter);
 // Use the routes for EJS pages
 app.use("/", ejsRoutes);
 

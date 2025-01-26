@@ -208,6 +208,7 @@
 
     try {
         document.getElementById("otpver").style.display = "flex";
+        
         const emailResponse = await fetch("http://localhost:3000/send-email", {
             method: "POST",
             credentials: "include",

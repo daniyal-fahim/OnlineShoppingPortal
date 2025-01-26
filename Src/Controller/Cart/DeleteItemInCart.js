@@ -4,9 +4,9 @@ import pool from "../../Config/DataBase/DB_Config.js";
 import { getGId } from "../User_Seller/getUserId.js";
 
 // Function to delete a specific item from the cart
-export const deleteItem = async (req, res) => {
+export const deleteItem = async (pid,req, res) => {
     try {
-        const { pid } = req.body;
+       
         const uid = getGId();
 
         // Validate input

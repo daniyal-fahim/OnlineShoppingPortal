@@ -2,7 +2,7 @@ import pool from "../../Config/DataBase/DB_Config.js";
 
 import { getGId } from "../User_Seller/getUserId.js";
 
-export const addToCart = async (pid, res) => {
+export const addToCart = async (pid) => {
     try {
         //const pid = req.params.pid;
 
@@ -18,10 +18,9 @@ export const addToCart = async (pid, res) => {
         await pool.query("INSERT INTO cart (Product_Id, USER_ID) VALUES ($1, $2)", [pid, uid]);
 
         // Send success response
-        res.status(200).json();
+        
     } catch (error) {
         // Handle errors
         console.error(error);
-        res.status(500).json();
     }
 };

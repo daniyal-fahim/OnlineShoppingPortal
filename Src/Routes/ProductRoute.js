@@ -70,50 +70,22 @@ const router = express.Router();
 import { getProduct } from "../Controller/Product/GetProduct.js";
 import { getCartProduct } from "../Controller/Cart/getCartProduct.js";
 
-// router.get("/getcartproduct", async (req, res) => {
-//     try {
-//         console.log("GET CART IS CALLED");
-//         const products = await getCartProduct(); // Wait for products to be fetched
-//         console.log("Products being passed to view:", products);
-//         const sortBy = req.query.sortBy || 'name';
-//         const sortOrder = req.query.sortOrder || 'asc';
 
-//         // Render the cart view
-//         res.render("cart", { products, sortBy, sortOrder }); // Corrected render
-//         console.log("Products being passed to cart");
-
-//     } catch (err) {
-//         console.error("Error fetching products:", err.message);
-//         res.status(500).send("Failed to load products");
-//     }
-// });
 router.get("/cart", async (req, res) => {
-    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
+
     const sortBy = req.query.sortBy || 'name';
     const sortOrder = req.query.sortOrder || 'asc';
-    const products = await getCartProduct(); // Wait for products to be fetched
 
-    // Render the cart view
-    res.render("cart", { products, sortBy, sortOrder }); // Corrected render
-});
-router.get("/getcartproduct", async (req, res) => {
     try {
-        console.log("GET CART IS CALLED");
         const products = await getCartProduct(); // Wait for products to be fetched
-        console.log("Products being passed to view:", products);
-        const sortBy = req.query.sortBy || 'name';
-        const sortOrder = req.query.sortOrder || 'asc';
-
-        // Disable caching
-        res.setHeader('Cache-Control', 'no-store'); // Prevents caching
-        res.render("cart", { products, sortBy, sortOrder, timestamp: Date.now() });
-        console.log("Products being passed to cart");
-
-    } catch (err) {
-        console.error("Error fetching products:", err.message);
-        res.status(500).send("Failed to load products");
+        // Render the cart view
+        res.render("cart", { products, sortBy, sortOrder });
+    } catch (error) {
+        console.error("Error fetching cart products:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
@@ -146,6 +118,13 @@ router.get("/product/:title", async (req, res) => {
 });
 
 
+import { deleteItem } from "../Controller/Cart/DeleteItemInCart.js";
+
+router.delete('/cart/remove/:productId', (req, res) => {
+    const pid = req.params.productId;
+   deleteItem(pid,req,res);
+    
+});
 // Add product route (can be expanded to save data)
 router.post("/addproduct", (req, res) => {
     addproduct(req, res);
@@ -191,6 +170,6 @@ import { addToCart } from "../Controller/Cart/addToCart.js";
 router.get('/addtocart/:pid', (req, res) => {
     const pid = req.params.pid;
     console.log("ADD TO CART IS CALLED EY");
-    addToCart(pid, res);
+    addToCart(pid);
 });
 export default router;
