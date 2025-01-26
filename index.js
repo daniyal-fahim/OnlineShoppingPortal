@@ -28,27 +28,34 @@ const PORT = 3000;
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(process.cwd(), "public")));
 
-// Middleware setup
-const allowedOrigins = [
-  "http://127.0.0.1:3000", // Localhost
-  "http://localhost:3000", // Localhost
-  "https://online-shopping-portal-kdx66wx0p-daniyal-fahims-projects.vercel.app","https://d-shopping.vercel.app/" // Vercel production
-];
+  // // Middleware setup
+  // const allowedOrigins = [
+  //   "http://127.0.0.1:3000", // Localhost
+  //   "http://localhost:3000", // Localhost
+  //   "https://online-shopping-portal-kdx66wx0p-daniyal-fahims-projects.vercel.app","https://d-shopping.vercel.app/" // Vercel production
+  // ];
 
-// CORS configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true); // Allow the origin
-    } else {
-      callback(new Error("Not allowed by CORS")); // Reject the origin
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-  credentials: true, // Enable credentials (cookies, headers, etc.)
-};
-
-app.use(cors(corsOptions)); // Apply CORS
+  // // CORS configuration
+  // const corsOptions = {
+  //   origin: function (origin, callback) {
+  //     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+  //       callback(null, true); // Allow the origin
+  //     } else {
+  //       callback(new Error("Not allowed by CORS")); // Reject the origin
+  //     }
+  //   },
+  //   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  //   credentials: true, // Enable credentials (cookies, headers, etc.)
+  // };
+  const corsOptions = {
+    origin: '*', // Allow all origins for testing purposes
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    credentials: true, // Enable credentials (cookies, headers, etc.)
+  };
+  
+  app.use(cors(corsOptions)); // Apply CORS
+  
+  app.use(cors(corsOptions)); // Apply CORS
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

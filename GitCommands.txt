@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Deployment In Progress part 3 (Correction in VIEW navigation)"
+git commit -m " Deployment In Progress part 5 (Wildcard For Allowing ALL The CORS)"
 git status
 git push -u origin main
 
