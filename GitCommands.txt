@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Deployment Changes index "
+git commit -m " Deployment In Progress"
 git status
 git push -u origin main
 
