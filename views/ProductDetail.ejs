@@ -9,13 +9,15 @@
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
-            color: #333;
+            background-color: #007BFF !important;
+            padding: 5px;
         }
 
         /* Page Container Styles */
         .page-container {
             background-color: #f9f9f9;
             text-align: center;
+            
         }
 
         .navbar, .footer {
@@ -132,14 +134,43 @@
                 </div>
 
                 <% if (product.stock > 0) { %>
-                    <a href="/addtocart/<%= product.pid %>" class="action">Add to Basket</a>
-                <% } %>
+                    <!-- <a href="/addtocart/<%= product.pid %>" class="action">Add to Basket</a> -->
+                    <a href="#" class="action" id="addToCartBtn" data-pid="<%= product.pid %>">Add to Basket</a>
+
+                
+                    <% } %>
             </div>
         </div>
     </div>
 
     <!-- Footer Include -->
     <%- include('Footer') %>
-
+    <script>
+        // Listen for the 'Add to Basket' button click
+        document.getElementById('addToCartBtn').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default anchor behavior
+            const pid = this.getAttribute('data-pid'); // Get the product ID from the data attribute
+            const token = localStorage.getItem('authToken');
+            // Make an AJAX request to add the product to the cart
+            fetch(`/addtocart/${pid}`, {
+                method: 'GET', // Assuming you are using a GET request
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Include Bearer Token
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // You can handle the response here, e.g., show a success message
+                alert(data.message || "Product added to cart successfully!");
+            })
+            .catch(error => {
+                // Handle any errors here
+                console.error("Error adding product to cart:", error);
+                alert("There was an error adding the product to your cart. Please try again.");
+            });
+        });
+    </script>
+    
 </body>
 </html>

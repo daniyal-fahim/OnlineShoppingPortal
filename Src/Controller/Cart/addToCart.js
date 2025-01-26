@@ -1,26 +1,36 @@
 import pool from "../../Config/DataBase/DB_Config.js";
-
 import { getGId } from "../User_Seller/getUserId.js";
 
 export const addToCart = async (pid) => {
     try {
-        //const pid = req.params.pid;
-
         // Validate the input
         if (!pid) {
-            return res.status(400).json({ error: "Product ID is required" });
+            throw new Error("Product ID is required");
         }
 
-        // Assume getGId() is a function that retrieves the user ID
+        // Log the incoming product ID for debugging
+        console.log('Adding product to cart, Product ID:', pid);
+
+        // Retrieve the user ID using the getGId function (ensure it's async if needed)
         const uid = getGId();
+        console.log(uid);
+        if (!uid) {
+            throw new Error("User ID not found");
+        }
 
-        // Insert into the database
-        await pool.query("INSERT INTO cart (Product_Id, USER_ID) VALUES ($1, $2)", [pid, uid]);
+        // Insert the product and user ID into the cart table
+        const query = "INSERT INTO cart (Product_Id, USER_ID) VALUES ($1, $2)";
+        const values = [pid, uid];
+        await pool.query(query, values);
+        console.log('Adding product to cart, Product ID:', pid);
 
-        // Send success response
-        
+        // Return a success message
+        return { message: "Product added to cart successfully!" };
     } catch (error) {
-        // Handle errors
-        console.error(error);
+        // Log the error for debugging
+        console.error('Error adding product to cart:', error);
+        
+        // Return an error message
+        return { error: "Failed to add product to cart, please try again later" };
     }
 };

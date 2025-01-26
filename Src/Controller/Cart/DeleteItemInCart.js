@@ -35,10 +35,8 @@ export const cartCheckout = async() => {
         await pool.query("DELETE FROM cart WHERE user_id = $1", [uid]);
 
         // Send success response
-        res.status(200).json({ msg: "Cart checked out successfully" });
     } catch (error) {
         // Handle errors
         console.error(error);
-        res.status(500).json({ error: "Failed to checkout cart" });
-    }
+  }
 };

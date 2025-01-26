@@ -23,7 +23,7 @@ const checkDuplicateId = async () => {
 // Controller function to add a product
 export const addproduct = async (req, res) => {
   const { name, price, category, image, description, stock, rating } = req.body;
-
+console.log(req.body);
   // Validate input fields
   if (!name || !price || !category || !image || !description || stock === undefined) {
     return res.status(400).json({ error: "All fields are required except rating." });
@@ -31,6 +31,7 @@ export const addproduct = async (req, res) => {
 
   try {
     // Generate a unique product ID
+    
     const pid = await checkDuplicateId();
 
     // Create product data object

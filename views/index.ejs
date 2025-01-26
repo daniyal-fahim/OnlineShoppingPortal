@@ -151,7 +151,7 @@
                 <p><%= product.description %></p>
                 <div class="price">$<%= product.price %></div>
                 <a href="/product/<%= product.title %>" class="action">View Details</a>
-                <button class="action" onclick="handleBuy('<%= product.id %>')">Buy Now</button>
+                <a href="#" class="action addToCartBtn" data-pid="<%= product.pid %>">Add to Basket</a>
             </div>
         <% }) %>
     </div>
@@ -160,5 +160,36 @@
     <div id="1c1" style="background-color: #fff;">
         <%- include('Footer') %>
     </div>
+
+    <script>
+        // Listen for 'Add to Basket' button clicks on all dynamically rendered buttons
+        document.querySelectorAll('.addToCartBtn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+                const pid = this.getAttribute('data-pid'); // Get the product ID from the data attribute
+                const token = localStorage.getItem('authToken'); // Get the token from localStorage
+                
+                console.log("Token:", token); // Debugging the token
+                
+                // Make an AJAX request to add the product to the cart
+                fetch(`/addtocart/${pid}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || "Product added to cart successfully!");
+                })
+                .catch(error => {
+                    console.error("Error adding product to cart:", error);
+                    alert("There was an error adding the product to your cart. Please try again.");
+                });
+            });
+        });
+    </script>
+    
 </body>
 </html>

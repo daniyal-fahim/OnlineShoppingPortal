@@ -172,14 +172,52 @@
                         </div>
                         <% }) %>
                             <% } %>
+            
+                            
+                    
         </div>
-
-        <!-- Footer -->
+        <button class="action" onclick="handleCheckout()" style="
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    ">Checkout</button>
+            <!-- Footer -->
         <div id="1c1" style="background-color: #fff;">
             <%- include('Footer') %>
         </div>
 
         <script>
+            function handleCheckout() {
+    const token = localStorage.getItem('authToken');
+    fetch(`/checkout`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Include Bearer Token
+            'Content-Type': 'application/json' // Specify content type
+        }
+    })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            if (data.total !== undefined) {
+                // Alert the total price fetched from the response
+                alert(`Checkout successful! Total amount: $${data.total.toFixed(2)}`);
+                location.reload(); // Refresh the page to show the updated cart
+            } else {
+                alert("Failed to complete the checkout. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error("Error during checkout:", error);
+            alert("An error occurred while processing the checkout.");
+        });
+}
+
             function handleRemoveFromCart(productId) {
                 const token = localStorage.getItem('authToken');
 
@@ -202,6 +240,22 @@
                         console.error("Error removing product from cart:", error);
                     });
             }
+
+          
+    // Add hover effect using JavaScript for inline styles
+    const checkoutButton = document.querySelector('.action');
+
+    checkoutButton.addEventListener('mouseenter', () => {
+        checkoutButton.style.backgroundColor = '#0056b3'; // Darker blue
+        checkoutButton.style.transform = 'translateY(-3px)';
+    });
+
+    checkoutButton.addEventListener('mouseleave', () => {
+        checkoutButton.style.backgroundColor = '#007BFF'; // Default blue
+        checkoutButton.style.transform = 'translateY(0)';
+    });
+
+
         </script>
 </body>
 

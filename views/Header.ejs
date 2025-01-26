@@ -15,7 +15,7 @@
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-            <h4 style="background-color: black; padding: 10px 5px;">ShopLogo</h4>
+            <h4 style="background-color: black; padding: 10px 5px;">D Shopping</h4>
           </a>
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -86,15 +86,17 @@
 
         if (data.login) {
           authButtons.innerHTML = `
-        <div class="d-flex align-items-center">
-          <span class="me-3 text-dark">Welcome, ${data.fullname}</span>
-          <button type="button" onclick="window.location.href='http://localhost:3000/addproduct'" class="btn btn-light text-dark me-2">AddProduct</button>
-          <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>
-            <a href="/cart">
-    <img src="/images/cart4.svg" class="me-3" style="cursor: pointer;" alt="Cart" />
-</a>
+    <div class="d-flex align-items-center">
+      <a href="/cart" class="d-flex align-items-center">
+            <img src="/images/cart4.svg" class="me-3" style="cursor: pointer; width: 50px; height: 50px;" alt="Cart" />
+            <span class="text-dark font-weight-bold" style="font-size: 18px;padding:2px">Cart      </span>
+        </a>
+        <span class="me-3 text-dark">Welcome, ${data.fullname}</span>
+        <button type="button" onclick="window.location.href='http://localhost:3000/addproduct'" class="btn btn-light text-dark me-2">AddProduct</button>
+        <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>
+        
+    </div>`;
 
-          </div>`;
         }
       } catch (error) {
         console.error('Error fetching login status:', error);

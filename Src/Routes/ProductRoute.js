@@ -130,6 +130,11 @@ router.post("/addproduct", (req, res) => {
     addproduct(req, res);
     console.log("Product Added:", req.body);
 });
+import { checkout } from "../Controller/Cart/Checkout.js";
+router.post("/checkout",(req,res)=>{
+    checkout(req,res);
+})
+
 
 router.get("/sort", async (req, res) => {
     try {
@@ -167,9 +172,23 @@ router.get("/sort", async (req, res) => {
 import { addToCart } from "../Controller/Cart/addToCart.js";
 
 
-router.get('/addtocart/:pid', (req, res) => {
+
+router.get('/addtocart/:pid', async (req, res) => {
     const pid = req.params.pid;
-    console.log("ADD TO CART IS CALLED EY");
-    addToCart(pid);
+    console.log("ADD TO CART IS CALLED");
+
+    try {
+        const result = await addToCart(pid); // Wait for the result from addToCart
+
+        // Handle success
+        return res.status(200).json(result); // Return success message from addToCart
+    } catch (error) {
+        // Handle failure
+        console.error('Error in addToCart:', error);
+        return res.status(500).json({ error: "Failed to add product to cart" });
+    }
 });
+
+
+
 export default router;
