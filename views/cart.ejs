@@ -208,8 +208,9 @@
                 // Alert the total price fetched from the response
                 alert(`Checkout successful! Total amount: $${data.total.toFixed(2)}`);
                 location.reload(); // Refresh the page to show the updated cart
+                window.location.href = "https://d-shopping.vercel.app/";
             } else {
-                alert("Failed to complete the checkout. Please try again.");
+                alert("Please Login. Please try again.");
             }
         })
         .catch(error => {
@@ -233,7 +234,7 @@
                             alert("Product removed from cart!");
                             location.reload(); // Refresh the page to show updated cart
                         } else {
-                            alert("Failed to remove product from cart.");
+                            alert("Plz login | Failed to remove product from cart.");
                         }
                     })
                     .catch(error => {

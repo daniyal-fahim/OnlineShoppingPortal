@@ -40,16 +40,19 @@
         <form id="sortForm" action="/sort" method="get" class="d-flex align-items-center me-3">
           <label for="sortBy" class="me-2">Sort by:</label>
           <select name="sortBy" id="sortBy" class="form-select me-2" onchange="document.getElementById('sortForm').submit();">
+            <option value="" <%= (!sortBy) ? 'selected' : '' %>>None</option>
             <option value="title" <%= (sortBy === 'title') ? 'selected' : '' %>>Name</option>
             <option value="price" <%= (sortBy === 'price') ? 'selected' : '' %>>Price</option>
           </select>
-
+        
           <label for="sortOrder" class="me-2">Order:</label>
           <select name="sortOrder" id="sortOrder" class="form-select" onchange="document.getElementById('sortForm').submit();">
+            <option value="" <%= (!sortOrder) ? 'selected' : '' %>>None</option>
             <option value="asc" <%= (sortOrder === 'asc') ? 'selected' : '' %>>Ascending</option>
             <option value="desc" <%= (sortOrder === 'desc') ? 'selected' : '' %>>Descending</option>
           </select>
         </form>
+        
 
         <!-- Login/Signup or Logout Buttons -->
         <div class="text-end" id="auth-buttons">

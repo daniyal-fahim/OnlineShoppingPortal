@@ -119,20 +119,35 @@ router.get("/product/:title", async (req, res) => {
 
 
 import { deleteItem } from "../Controller/Cart/DeleteItemInCart.js";
-
+import { IsloginCheck } from "../Controller/User_Seller/IsLogin.js";
 router.delete('/cart/remove/:productId', (req, res) => {
     const pid = req.params.productId;
-   deleteItem(pid,req,res);
-    
+    deleteItem(pid, req, res);
+
 });
 // Add product route (can be expanded to save data)
-router.post("/addproduct", (req, res) => {
+router.post("/addproduct", async (req, res) => {
+    if (IsloginCheck() && getGId() && getGId() != 'UserLogout') {
     addproduct(req, res);
-    console.log("Product Added:", req.body);
+    console.log("Product Added:", req.body);}
+    else {
+        const sortBy = req.query.sortBy || 'name';
+        const sortOrder = req.query.sortOrder || 'asc';
+        const products = await getProduct();
+        res.render("index", { products, sortBy, sortOrder }); // Pass products to the view
+    }
 });
 import { checkout } from "../Controller/Cart/Checkout.js";
-router.post("/checkout",(req,res)=>{
-    checkout(req,res);
+router.post("/checkout", async (req, res) => {
+    if (IsloginCheck() && getGId() && getGId() != 'UserLogout') {
+        checkout(req, res);
+    }
+    else {
+        const sortBy = req.query.sortBy || 'name';
+        const sortOrder = req.query.sortOrder || 'asc';
+        const products = await getProduct();
+        res.render("index", { products, sortBy, sortOrder }); // Pass products to the view
+    }
 })
 
 
@@ -176,16 +191,22 @@ import { addToCart } from "../Controller/Cart/addToCart.js";
 router.get('/addtocart/:pid', async (req, res) => {
     const pid = req.params.pid;
     console.log("ADD TO CART IS CALLED");
+    if (IsloginCheck() && getGId() && getGId() != 'UserLogout')  {
+        try {
+            const result = await addToCart(pid); // Wait for the result from addToCart
 
-    try {
-        const result = await addToCart(pid); // Wait for the result from addToCart
-
-        // Handle success
-        return res.status(200).json(result); // Return success message from addToCart
-    } catch (error) {
-        // Handle failure
-        console.error('Error in addToCart:', error);
-        return res.status(500).json({ error: "Failed to add product to cart" });
+            // Handle success
+            return res.status(200).json(result); // Return success message from addToCart
+        } catch (error) {
+            // Handle failure
+            console.error('Error in addToCart:', error);
+            return res.status(500).json({ error: "Failed to add product to cart" });
+        }
+    } else {
+        const sortBy = req.query.sortBy || 'name';
+        const sortOrder = req.query.sortOrder || 'asc';
+        const products = await getProduct();
+        res.render("index", { products, sortBy, sortOrder }); // Pass products to the view
     }
 });
 

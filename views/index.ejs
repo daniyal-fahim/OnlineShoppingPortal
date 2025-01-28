@@ -151,7 +151,12 @@
                 <p><%= product.description %></p>
                 <div class="price">$<%= product.price %></div>
                 <a href="/product/<%= product.title %>" class="action">View Details</a>
-                <a href="#" class="action addToCartBtn" data-pid="<%= product.pid %>">Add to Basket</a>
+                <% if (product.stock > 0) { %> 
+                    <a href="#" class="action addToCartBtn" data-pid="<%= product.pid %>">Add to Basket</a>
+                <% } else { %>
+                    <h1 style="color: red;">Out Of Stock</h1>
+                <% } %>
+                
             </div>
         <% }) %>
     </div>
@@ -185,7 +190,7 @@
                 })
                 .catch(error => {
                     console.error("Error adding product to cart:", error);
-                    alert("There was an error adding the product to your cart. Please try again.");
+                    alert(" Plz Login First |There was an error adding the product to your cart. Please try again.");
                 });
             });
         });

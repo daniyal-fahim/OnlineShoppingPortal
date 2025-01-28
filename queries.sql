@@ -28,3 +28,7 @@ lname:Fahim
 cnic:4928724896498
 gender:Male
 nationality:Pakistani
+
+
+-- https://d-shopping.vercel.app/
+-- http://localhost:3000/
