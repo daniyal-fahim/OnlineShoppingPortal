@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Adding additional logic to the code and closing the project for now"
+git commit -m " Changing the default otp which was for the testing"
 git status
 git push -u origin main
 
