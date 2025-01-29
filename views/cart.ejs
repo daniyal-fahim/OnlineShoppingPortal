@@ -211,6 +211,8 @@
                 window.location.href = "https://d-shopping.vercel.app/";
             } else {
                 alert("Please Login. Please try again.");
+                window.location.href = "https://d-shopping.vercel.app/login";
+
             }
         })
         .catch(error => {
@@ -235,6 +237,8 @@
                             location.reload(); // Refresh the page to show updated cart
                         } else {
                             alert("Plz login | Failed to remove product from cart.");
+                            window.location.href = "https://d-shopping.vercel.app/login";
+
                         }
                     })
                     .catch(error => {

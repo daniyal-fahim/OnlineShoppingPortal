@@ -1,7 +1,7 @@
 git status
 git add .
 git status
-git commit -m " Advancement in the code fizng major issues /bugs"
+git commit -m " Adding additional logic to the code and closing the project for now"
 git status
 git push -u origin main
 

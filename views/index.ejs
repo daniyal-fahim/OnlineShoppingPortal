@@ -154,7 +154,7 @@
                 <% if (product.stock > 0) { %> 
                     <a href="#" class="action addToCartBtn" data-pid="<%= product.pid %>">Add to Basket</a>
                 <% } else { %>
-                    <h1 style="color: red;">Out Of Stock</h1>
+                    <h4 style="color: red;"> :C Out Of Stock</h4>
                 <% } %>
                 
             </div>
@@ -191,6 +191,8 @@
                 .catch(error => {
                     console.error("Error adding product to cart:", error);
                     alert(" Plz Login First |There was an error adding the product to your cart. Please try again.");
+                    window.location.href = "https://d-shopping.vercel.app/login";
+
                 });
             });
         });
